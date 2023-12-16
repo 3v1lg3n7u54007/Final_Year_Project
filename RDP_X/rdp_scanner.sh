@@ -1,5 +1,18 @@
 #!/bin/bash
 
+echo "
+
+
+  _____  _____  _______   __
+ |  __ \|  __ \|  __ \ \ / /
+ | |__) | |  | | |__) \ V / 
+ |  _  /| |  | |  ___/ > <  
+ | | \ \| |__| | |    / . \ 
+ |_|  \_\_____/|_|   /_/ \_\
+                            
+                            
+"
+
 # Function to check RDP port for an individual host
 check_rdp_port() {
     local host=$1
