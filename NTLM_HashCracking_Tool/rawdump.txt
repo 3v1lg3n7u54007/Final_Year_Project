@@ -1,0 +1,47 @@
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+[-] RemoteOperations failed: DCERPC Runtime Error: code: 0x5 - rpc_s_access_denied 
+[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
+[*] Using the DRSUAPI method to get NTDS.DIT secrets
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:a74e5dea5e3135295ca0d11c47957209:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:e251c7a4a3aa38cd38c567b98b45fb49:::
+ActiveDirectoryEnvironment.local\EdwardSnowden:1106:aad3b435b51404eeaad3b435b51404ee:7729d616f486e6e33505b0fc194a7c01:::
+ActiveDirectoryEnvironment.local\SQLService:1107:aad3b435b51404eeaad3b435b51404ee:49478fd4bee95e935c39fa032d66bf36:::
+ActiveDirectoryEnvironment.local\KMitnick:1109:aad3b435b51404eeaad3b435b51404ee:dcce29b23deae134716c4cbf78575ca9:::
+ActiveDirectoryEnvironment.local\EAnderson:1110:aad3b435b51404eeaad3b435b51404ee:8cc69bb97712497c93c1beb0fcebdf2e:::
+AD-DOMAIN-CONTR$:1000:aad3b435b51404eeaad3b435b51404ee:c508d7ea9fcec2cb8fb278aae45b9fb7:::
+ELLIOT-ANDERSON$:1111:aad3b435b51404eeaad3b435b51404ee:a378e94f2241c0ab706de5dccc2ef5c1:::
+KEVIN-MITNICK$:1112:aad3b435b51404eeaad3b435b51404ee:f87c6968ac78428ff5e091ce8198c880:::
+GENERATEDPC$:1113:aad3b435b51404eeaad3b435b51404ee:bbb52b1817b52c1aefa35c18dd2d5f3e:::
+[*] Kerberos keys grabbed
+Administrator:aes256-cts-hmac-sha1-96:b0509476a58f6f048511ee88f2179c7b4c9a8f0c8ca2553825b532ad2753e58f
+Administrator:aes128-cts-hmac-sha1-96:d188d8653213747af75ae8c19907db88
+Administrator:des-cbc-md5:253445c7a8075bd0
+krbtgt:aes256-cts-hmac-sha1-96:cf7744d3ff5bb0888a09483697669396b59a563dd17ec1f83b836a2409a51de1
+krbtgt:aes128-cts-hmac-sha1-96:c671db3f1879a9999bf1b02fe4b8b48c
+krbtgt:des-cbc-md5:64f24089e90da8c4
+ActiveDirectoryEnvironment.local\EdwardSnowden:aes256-cts-hmac-sha1-96:caf59a208105495f2a1e9282c40b953e268d136085788dd5204ba0c2fc0fd4fc
+ActiveDirectoryEnvironment.local\EdwardSnowden:aes128-cts-hmac-sha1-96:045b7214bc936fe716112118eea33867
+ActiveDirectoryEnvironment.local\EdwardSnowden:des-cbc-md5:1ad3fe6e519758e5
+ActiveDirectoryEnvironment.local\SQLService:aes256-cts-hmac-sha1-96:3c6019b7b17367b5aa3e464c316f50bf78f1b15f612a22c70dc58a6c351a5b98
+ActiveDirectoryEnvironment.local\SQLService:aes128-cts-hmac-sha1-96:40755ef141ac9606f4f1afe0116864f8
+ActiveDirectoryEnvironment.local\SQLService:des-cbc-md5:c8d5236404df49df
+ActiveDirectoryEnvironment.local\KMitnick:aes256-cts-hmac-sha1-96:e40c005e1c639eee18229bf08b557ed8f1d0d34c26ad533a25800064b7537d28
+ActiveDirectoryEnvironment.local\KMitnick:aes128-cts-hmac-sha1-96:4c7aa1aff374f164afa8d72a98adc2ed
+ActiveDirectoryEnvironment.local\KMitnick:des-cbc-md5:916d46e0c19b8510
+ActiveDirectoryEnvironment.local\EAnderson:aes256-cts-hmac-sha1-96:80a4fb730d35fad1b2518664106ddd8c8919ae1a7dae85ef1caa64bbc1e0bb5c
+ActiveDirectoryEnvironment.local\EAnderson:aes128-cts-hmac-sha1-96:a3ff1523d0b49f8a6062f33f3cce3948
+ActiveDirectoryEnvironment.local\EAnderson:des-cbc-md5:daeaa49215bc2394
+AD-DOMAIN-CONTR$:aes256-cts-hmac-sha1-96:0e5e4608a15ebf249298d1a49c7f39ec184c524ebdbf5e46952f66ffce570222
+AD-DOMAIN-CONTR$:aes128-cts-hmac-sha1-96:e81e74bda2bb10eb908d4fbb52860470
+AD-DOMAIN-CONTR$:des-cbc-md5:97ec25f42c0eea38
+ELLIOT-ANDERSON$:aes256-cts-hmac-sha1-96:3063e5ca05ce82bd2b2a12ef9ba0f5993b71a70b4174048b8aaf76e9437ec9ce
+ELLIOT-ANDERSON$:aes128-cts-hmac-sha1-96:d6d12dc931b29b76b5a3a5ed2f4b3614
+ELLIOT-ANDERSON$:des-cbc-md5:766807e5df4f9ec8
+KEVIN-MITNICK$:aes256-cts-hmac-sha1-96:5f8854f1bcb3ec18358744f1fb2667528d90e44b8377df91d783a1103c6165f9
+KEVIN-MITNICK$:aes128-cts-hmac-sha1-96:01eed1553538ad97a8850887699e5bbc
+KEVIN-MITNICK$:des-cbc-md5:f8c761ab32bfd91f
+GENERATEDPC$:aes256-cts-hmac-sha1-96:785199a05201ca7825a83a308dbbb7f9691152657cca33283a1fd7d79d52be07
+GENERATEDPC$:aes128-cts-hmac-sha1-96:dd1a478959fd9cf262954e988fcd2823
+GENERATEDPC$:des-cbc-md5:25c2b6866d2fec6d
