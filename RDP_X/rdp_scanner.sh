@@ -27,7 +27,7 @@ echo "--[ TOOL ]--[ RDP SCANNER ]--[ SUJAL TULADHAR ]"
 # Prompt the user for subnet (N) or single IP (H)
 choice=$(zenity --list --title="Scan Type" --column="Type" "Network" "Host" --text="Please specify the scan type you want to perform. [Network or Host based]")
 
-if [[ $choice == "N" ]]; then
+if [[ $choice == "Network" ]]; then
     # Prompt the user for the network range using Zenity
     network_range=$(zenity --entry --title="Network Scanner" --text="Enter the network range (e.g., 192.168.15.0):")
 
@@ -66,7 +66,7 @@ if [[ $choice == "N" ]]; then
     
     ./rdp_bruteforce.sh
 
-elif [[ $choice == "H" ]]; then
+elif [[ $choice == "Host" ]]; then
     # Prompt the user for a single IP address
     host_ip=$(zenity --entry --title="Host Scanner" --text="Enter the host IP address:")
     
