@@ -1,0 +1,5 @@
+1. Develop powershell CVE exploitation tool alongisde POC.
+
+2. Make a comprehensive report for the AD deployment.
+
+3. Make a wrapper for the tool to intergate them in one single tool.
