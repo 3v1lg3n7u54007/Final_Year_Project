@@ -9,3 +9,5 @@
 4. Preparing a presentation for development updates. [ Ongoing ] [ Draft Created ] [ Completed ]
 
 5. CVE Exploitation tool POC created.
+
+6. Project documentation initiation.
