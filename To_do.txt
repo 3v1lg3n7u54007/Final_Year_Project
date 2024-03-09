@@ -1,6 +1,6 @@
 
 
-1. Develop powershell CVE exploitation tool alongisde POC.
+1. Develop powershell CVE exploitation tool alongisde POC. [POC developed successfully.]
 
 2. Make a comprehensive report for the AD deployment.
 

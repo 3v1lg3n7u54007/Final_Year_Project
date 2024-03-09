@@ -20,7 +20,7 @@ def execute_command(session, cmd):
         print(f"Error Output:\n{result.std_err.decode('utf-8')}")
 
 # Define target machine details
-host = '192.168.15.145'
+host = '192.168.15.170'
 domain = 'Activedirectoryenvironment.local'
 user = 'EAnderson'
 password = 'Employee23213'
