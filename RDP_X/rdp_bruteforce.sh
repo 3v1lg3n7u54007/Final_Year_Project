@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "$(<./ascii.txt )"
+
 echo "--[ TOOL ]--[ RDP BRUTEFORCE ]--[ SUJAL TULADHAR ]"
 
 # Initialize variables
