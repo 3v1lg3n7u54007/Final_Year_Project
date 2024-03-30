@@ -4,8 +4,8 @@
 
 2. Make a comprehensive report for the AD deployment.
 
-3. Make a wrapper for the tool to intergate them in one single tool. [Development Started]
+3. Make a wrapper for the tool to intergate them in one single tool. [Development Started] [On Going]
 
 4. Preparing a presentation for development updates. [ Ongoing ] [ Draft Created ] [ Completed ]
 
-5. Project documentation initiation.
+5. Project documentation initiation. [Started]
