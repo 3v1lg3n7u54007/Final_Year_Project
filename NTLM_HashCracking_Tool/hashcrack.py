@@ -2,7 +2,6 @@ import os
 import re
 import hashlib
 
-
 # Function to print a styled banner
 def banner():
     print(
