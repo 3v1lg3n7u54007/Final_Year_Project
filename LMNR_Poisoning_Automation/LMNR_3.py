@@ -24,7 +24,7 @@ def get_user_input():
 
 def run_responder(timeout):
     try:
-        command = f"sudo timeout {timeout} script -c 'sudo responder -I eth0 -dwPv' output.log"
+        command = f"sudo timeout {timeout} script -c 'sudo responder -I eth0 -Pv' output.log"
         subprocess.run(command, shell=True, check=True)
     except subprocess.CalledProcessError as e:
         if e.returncode == 124:  # specific error code for timeout

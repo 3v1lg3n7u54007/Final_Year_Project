@@ -14,7 +14,7 @@ def execute_command(session, cmd):
     # Suppressing the progress stream to avoid CLIXML output
     ps_script = f"$ProgressPreference = 'SilentlyContinue'; {cmd}"
     result = session.run_ps(ps_script)
-    print(f"\nResponse code: {result.status_code}")
+    #print(f"\nResponse code: {result.status_code}")
     print(f"Standard Output:\n{result.std_out.decode('utf-8')}")
     if result.std_err:
         print(f"Error Output:\n{result.std_err.decode('utf-8')}")
