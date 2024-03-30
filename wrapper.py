@@ -2,7 +2,7 @@ import os
 import json
 import subprocess
 import os.path as directoryPath
-
+import time
 
 def banner():
     return
@@ -115,9 +115,21 @@ def getUserInput(ENV):
         print(f"\nExecuting command for {selected_env['name']}...")
         execute_script(script_name, script_path)
 
+def start_web_server():
+    # Start the server as a subprocess without blocking
+    # subprocess.Popen starts the process and returns immediately
+    os.system("fuser -k 1231/tcp")
+    command = ["python3", "-m", "http.server", "1231"]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+    print("Server started on port 1231 in the background.")
+    return process  # Returning the process allows you to interact with it later if needed
+
+# To run the function
+process = start_web_server()
 
 # Load the environment configurations
 ENV = load_environment()
 
 # Example usage
-getUserInput(ENV)
+#getUserInput(ENV)
