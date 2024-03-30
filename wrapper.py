@@ -2,7 +2,7 @@ import os
 import json
 import subprocess
 import os.path as directoryPath
-import time
+
 
 def banner():
     return
@@ -23,6 +23,52 @@ def clear_screen():
         _ = os.system("clear")
 
     banner()
+
+
+def manage_server(port, start=True):
+    """
+    Manages a simple HTTP server on the specified port.
+
+    Parameters:
+    - port: The port number to use for the server.
+    - start: Boolean indicating whether to start (True) or stop (False) the server.
+    """
+
+    def kill_server():
+        """Kills any server running on the specified port."""
+        try:
+            subprocess.check_output(["fuser", "-k", f"{port}/tcp"])
+            print(f"Successfully killed process on port {port}.")
+            return None
+
+        except subprocess.CalledProcessError:
+            print(f"No process was running on port {port}, or lack permissions.")
+
+        except Exception as e:
+            print(
+                f"An error occurred while trying to kill the server on port {port}: {e}"
+            )
+
+    def start_server():
+        """Starts the server on the specified port."""
+        command = ["python", "-m", "http.server", str(port)]
+        try:
+            process = subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            print(f"Server started on port {port} in the background.")
+            return process
+        except Exception as e:
+            print(f"Failed to start the server on port {port}: {e}")
+            return None
+
+    if start:
+        kill_server()
+        return start_server()
+    else:
+        return kill_server()
 
 
 def execute_script(command, script_path):
@@ -48,7 +94,7 @@ def execute_script(command, script_path):
             print(f"Unsupported script type for command: {command}")
             exit()
     except Exception as error:
-        print(error) 
+        print(error)
     finally:
         os.chdir(original_cwd)  # Change back to the original working directory
 
@@ -115,21 +161,30 @@ def getUserInput(ENV):
         print(f"\nExecuting command for {selected_env['name']}...")
         execute_script(script_name, script_path)
 
-def start_web_server():
-    # Start the server as a subprocess without blocking
-    # subprocess.Popen starts the process and returns immediately
-    os.system("fuser -k 1231/tcp")
-    command = ["python3", "-m", "http.server", "1231"]
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    print("Server started on port 1231 in the background.")
-    return process  # Returning the process allows you to interact with it later if needed
 
-# To run the function
-process = start_web_server()
+if __name__ == "__main__":
 
-# Load the environment configurations
-ENV = load_environment()
+    server_process = None
 
-# Example usage
-#getUserInput(ENV)
+    try:
+        ENV = load_environment()
+
+        # Start the server
+        server_process = manage_server(1231, start=True)
+
+        getUserInput(ENV)
+
+    except KeyboardInterrupt:
+        print("\nDetected Ctrl+C. Shutting down server and exiting gracefully...")
+
+        if server_process is not None:
+            manage_server(1231, start=False)
+
+    except Exception as error:
+        print(f"An unexpected error occurred: {error}")
+
+    finally:
+        if server_process is not None:
+            manage_server(1231, start=False)
+
+        print("Exiting gracefully...")
