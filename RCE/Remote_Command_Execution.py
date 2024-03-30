@@ -1,6 +1,20 @@
 import winrm
 import sys
 
+def print_ascii_art():
+    # ASCII art for visual appeal
+    print("""
+ooooooooo.     .oooooo.   oooooooooooo 
+`888   `Y88.  d8P'  `Y8b  `888'     `8 
+ 888   .d88' 888           888         
+ 888ooo88P'  888           888oooo8    
+ 888`88b.    888           888    "    
+ 888  `88b.  `88b    ooo   888       o 
+o888o  o888o  `Y8bood8P'  o888ooooood8 
+                                                                                                                                                                          """)
+
+print_ascii_art()
+
 # Function to print help commands
 def print_help():
     print("\nAvailable commands:")
