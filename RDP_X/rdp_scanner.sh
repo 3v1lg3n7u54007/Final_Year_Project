@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 
 echo "$(<./ascii2.txt)"
 
@@ -14,7 +15,7 @@ check_rdp_port() {
 echo "--[ TOOL ]--[ RDP SCANNER ]--[ SUJAL TULADHAR ]"
 
 # Prompt the user for subnet (N) or single IP (H)
-choice=$(zenity --list --title="Scan Type" --column="Type" "Network" "Host" --text="Please specify the scan type you want to perform. [Network or Host based]")
+choice=$(zenity --list --title="Scan Type" --column="Type" "Network" "Host" --text="Please specify the scan type you want to perform. [Network or Host based]") 
 
 if [[ $choice == "Network" ]]; then
     while true; do
@@ -76,7 +77,6 @@ elif [[ $choice == "Host" ]]; then
         if [[ $exit_status -ne 0 ]]; then
             zenity --info --text="Operation cancelled by user."
             exit 2
-            python wrapper.py
         fi
 
         # Validate the input with an enhanced regex that checks for valid IPv4 addresses

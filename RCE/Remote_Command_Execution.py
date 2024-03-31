@@ -1,7 +1,8 @@
 import winrm
 import sys
+import os
 
-def print_ascii_art():
+def banner():
     # ASCII art for visual appeal
     print("""
 ooooooooo.     .oooooo.   oooooooooooo 
@@ -13,8 +14,6 @@ ooooooooo.     .oooooo.   oooooooooooo
 o888o  o888o  `Y8bood8P'  o888ooooood8 
                                                                                                                                                                           """)
 
-print_ascii_art()
-
 # Function to print help commands
 def print_help():
     print("\nAvailable commands:")
@@ -22,6 +21,21 @@ def print_help():
     print("  - 'help' : Display this help message")
     print("  - '<PowerShell Command>' : Execute the given PowerShell command")
     print()
+
+# Function to clear the terminal screen and reprint the banner
+def clear_screen():
+    # Clear command for Windows
+    if os.name == "nt":
+        _ = os.system("cls")
+
+    # Clear command for Unix/Linux/Mac
+    else:
+        _ = os.system("clear")
+
+    # Reprint the banner after clearing
+    banner()
+
+clear_screen()
 
 # Function to handle execution of PowerShell commands
 def execute_command(session, cmd):

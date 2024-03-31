@@ -1,4 +1,4 @@
-Script started on 2024-03-31 06:03:56-04:00 [COMMAND="sudo responder -I eth0 -Pv" TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="123" LINES="28"]
+Script started on 2024-03-31 08:12:41-04:00 [COMMAND="sudo responder -I eth0 -Pv" TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="114" LINES="25"]
 
 [1;32m[+] [0mPoisoners:
     LLMNR                      [1;32m[ON][0m
@@ -48,11 +48,12 @@ Script started on 2024-03-31 06:03:56-04:00 [COMMAND="sudo responder -I eth0 -Pv
     Don't Respond To Names     [1;35m['ISATAP', 'ISATAP.LOCAL'][0m
 
 [1;32m[+] [0mCurrent Session Variables:
-    Responder Machine Name     [1;35m[WIN-47BV0ZVZYH9][0m
-    Responder Domain Name      [1;35m[OBW4.LOCAL][0m
-    Responder DCE-RPC Port     [1;35m[45701][0m
+    Responder Machine Name     [1;35m[WIN-FTFXBO1J6E2][0m
+    Responder Domain Name      [1;35m[O927.LOCAL][0m
+    Responder DCE-RPC Port     [1;35m[48903][0m
 [1;32m
 [+][0m Listening for events...
 
+^C[1;32m[+][0m Exiting...
 
-Script done on 2024-03-31 06:04:08-04:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2024-03-31 08:12:47-04:00 [COMMAND_EXIT_CODE="1"]

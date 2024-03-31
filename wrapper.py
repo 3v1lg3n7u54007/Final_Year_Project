@@ -133,11 +133,12 @@ def display_environments(ENV):
 def getUserInput(ENV):
     """Handles user interaction with Zenity dialogs for test and mode selection."""
     try:
+       
         # Prepare the test selection dialog
         tests = "\n".join(f"{env['id']}. {env['name']}" for env in ENV)
         zenity_test_cmd = f"""bash -c "zenity --list --title='Select Test' --column='Test Case' --height=400 --width=400 --print-column=1 <<< '{tests}'" """
         selected_test_id = subprocess.check_output(
-            zenity_test_cmd, shell=True, text=True
+            zenity_test_cmd, shell=True, text=True, stderr=subprocess.DEVNULL
         ).strip()
 
         if not selected_test_id:
@@ -161,7 +162,7 @@ def getUserInput(ENV):
             )
             zenity_mode_cmd = f"zenity --list --title='Select Mode for {selected_env['name']}' --column='ID' --column='Mode' --height=200 --width=400 --print-column=1 <<< \"{modes}\""
             selected_mode_id = subprocess.check_output(
-                zenity_mode_cmd, shell=True, text=True
+                zenity_mode_cmd, shell=True, text=True, stderr=subprocess.DEVNULL
             ).strip()
             selected_mode_id = int(selected_mode_id) - 1
             selected_mode = selected_env["modes"][selected_mode_id]
@@ -186,6 +187,7 @@ if __name__ == "__main__":
     while True:
         try:
             ENV = load_environment()
+            clear_screen()
             getUserInput(ENV)
             # Assuming successful completion, break the loop
             print("Operation completed successfully.")
@@ -199,7 +201,7 @@ if __name__ == "__main__":
             zenity_test_cmd = f"""bash -c 'zenity --error --text="{error}" --height=200 --width=400 '"""
 
             selected_test_id = subprocess.check_output(
-                zenity_test_cmd, shell=True, text=True
+                zenity_test_cmd, shell=True, text=True, stderr=subprocess.DEVNULL
             ).strip()
             if "Exiting" in str(error):
                 exit()

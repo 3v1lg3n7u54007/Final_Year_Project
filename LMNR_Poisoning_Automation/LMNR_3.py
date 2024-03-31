@@ -1,8 +1,9 @@
 import re
 import subprocess
 import time
+import os
 
-def print_ascii_art():
+def banner():
     # ASCII art for visual appeal
     print("""
 ooooo        ooo        ooooo ooooo      ooo ooooooooo.        ooooooooo.     .oooooo.   ooooo  .oooooo..o   .oooooo.   ooooo      ooo ooooo ooooo      ooo   .oooooo
@@ -21,6 +22,19 @@ def get_user_input():
             return timeout
         except ValueError:
             print("Please enter a valid number.")
+
+# Function to clear the terminal screen and reprint the banner
+def clear_screen():
+    # Clear command for Windows
+    if os.name == "nt":
+        _ = os.system("cls")
+
+    # Clear command for Unix/Linux/Mac
+    else:
+        _ = os.system("clear")
+
+    # Reprint the banner after clearing
+    banner()
 
 def run_responder(timeout):
     try:
@@ -56,7 +70,7 @@ def clean_ansi_codes(text):
     return re.sub(r'\x1b\[[0-9;]*[mK]', '', text)
 
 def main():
-    print_ascii_art()
+    clear_screen()
     timeout = get_user_input()
     run_responder(timeout)
 
