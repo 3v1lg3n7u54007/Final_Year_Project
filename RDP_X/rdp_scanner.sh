@@ -48,7 +48,7 @@ if [[ $choice == "Network" ]]; then
     done
 
     # Sleep for 30 seconds
-    sleep 30
+    sleep 15
 
     # End the program
     echo "Scanning complete."
