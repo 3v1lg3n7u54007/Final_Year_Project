@@ -17,19 +17,24 @@ echo "--[ TOOL ]--[ RDP SCANNER ]--[ SUJAL TULADHAR ]"
 choice=$(zenity --list --title="Scan Type" --column="Type" "Network" "Host" --text="Please specify the scan type you want to perform. [Network or Host based]")
 
 if [[ $choice == "Network" ]]; then
-    # Prompt the user for the network range using Zenity
-    network_range=$(zenity --entry --title="Network Scanner" --text="Enter the network range (e.g., 192.168.15.0):")
+    valid_input=false
 
-    # Validate the input
-    if [[ ! $network_range =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        zenity --error --text="Invalid network range format. Please enter a valid IP address."
-        exit 1
-    fi
+    while [[ $valid_input == false ]]; do
+        # Prompt the user for the network range using Zenity
+        network_range=$(zenity --entry --title="Network Scanner" --text="Enter the network range (Example: 192.168.15.0):")
+
+        # Validate the input with an enhanced regex that checks for valid IPv4 addresses
+        if [[ ! $network_range =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
+            zenity --error --text="Invalid network range format. Please enter a valid IP address."
+        else
+            valid_input=true
+        fi
+    done
 
     # Specify the RDP port
     rdp_port=3389
 
-    # Extract the network prefix (e.g., 192.168.15)
+    # Extract the network prefix (e.g., 192.168.1)
     network_prefix="${network_range%.*}"
 
     # Function to display scanning message
@@ -47,7 +52,7 @@ if [[ $choice == "Network" ]]; then
         check_rdp_port "$host" &
     done
 
-    # Sleep for 30 seconds
+    # Sleep for 15 seconds to allow some scans to complete
     sleep 15
 
     # End the program
@@ -56,14 +61,19 @@ if [[ $choice == "Network" ]]; then
     ./rdp_bruteforce.sh
 
 elif [[ $choice == "Host" ]]; then
-    # Prompt the user for a single IP address
-    host_ip=$(zenity --entry --title="Host Scanner" --text="Enter the host IP address:")
-    
-    # Validate the input
-    if [[ ! $host_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        zenity --error --text="Invalid IP address format. Please enter a valid IP address."
-        exit 1
-    fi
+    valid_input=false
+
+    while [[ $valid_input == false ]]; do
+        # Prompt the user for a single IP address
+        host_ip=$(zenity --entry --title="Host Scanner" --text="Enter the host IP address (Example: 192.168.15.X):")
+
+        # Validate the input with an enhanced regex that checks for valid IPv4 addresses
+        if [[ ! $host_ip =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
+            zenity --error --text="Invalid IP address format. Please enter a valid IP address."
+        else
+            valid_input=true
+        fi
+    done
 
     # Check RDP port for the specified host
     check_rdp_port "$host_ip"
@@ -74,8 +84,9 @@ elif [[ $choice == "Host" ]]; then
     # Invoke rdp_bruteforce.sh script
     ./rdp_bruteforce.sh
 
-    exit 0
+    # No need to exit here if you want the script to potentially continue or end naturally
 else
     zenity --error --text="Invalid choice. Please select either 'N' or 'H'."
     exit 1
 fi
+

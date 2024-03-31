@@ -1,7 +1,9 @@
 import os
 import json
+import time
 import subprocess
 import os.path as directoryPath
+
 
 def banner():
     print(
@@ -15,6 +17,7 @@ def banner():
 o88o     o8888o  `Y8bood8P'      o888o     o888o       `8'       o888ooooood8      o888bood8P'   o888o o888o  o888o o888ooooood8  `Y8bood8P'      o888o      `Y8bood8P'  o888o  o888o     o888o          o888o  o88888o                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 """
     )
+
 
 def getFullPath(pathValue):
     """Converts a relative path to an absolute, normalized path."""
@@ -99,10 +102,11 @@ def execute_script(command, script_path):
                 shell=True,
             )
         else:
-            print(f"Unsupported script type for command: {command}")
-            exit()
+            raise Exception(f"Unsupported script type for command: {command}")
+
     except Exception as error:
         print(error)
+
     finally:
         os.chdir(original_cwd)  # Change back to the original working directory
 
@@ -126,73 +130,84 @@ def display_environments(ENV):
 
 
 def getUserInput(ENV):
-    """Handles user interaction to choose a test and execution mode, with a check for OS compatibility."""
-    clear_screen()
-    print("\nSELECT TEST:")
-    display_environments(ENV)
+    """Handles user interaction with Zenity dialogs for test and mode selection."""
+    try:
+        # Prepare the test selection dialog
+        tests = "\n".join(f"{env['id']}. {env['name']}" for env in ENV)
+        zenity_test_cmd = f"""bash -c "zenity --list --title='Select Test' --column='Test Case' --height=400 --width=400 --print-column=1 <<< '{tests}'" """
+        selected_test_id = subprocess.check_output(
+            zenity_test_cmd, shell=True, text=True
+        ).strip()
 
-    env_id = int(input("\nInput Test ID >>> ").strip())
-    selected_env = next((env for env in ENV if env["id"] == env_id), None)
+        if not selected_test_id:
+            raise Exception("No Test Selected. Exiting...")
 
-    if not selected_env:
-        print("\nInvalid Test Selected. Exiting...")
-        exit()
+        selected_test_id = int(
+            selected_test_id.split(".")[0]
+        )  # Extracting ID from selection
+        selected_env = next((env for env in ENV if env["id"] == selected_test_id), None)
 
-    current_os = "nt" if os.name == "nt" else "linux"
-    if selected_env["environment"] not in [current_os, "any"]:
-        print(
-            f"\nSelected environment is not compatible with the current OS ({current_os}). Exiting..."
-        )
-        exit()
+        current_os = "nt" if os.name == "nt" else "linux"
+        if selected_env["environment"] not in [current_os, "any"]:
+            raise Exception(
+                f"\nSelected environment is not compatible with the current OS ({current_os})"
+            )
 
-    if "modes" in selected_env:
-        print(f"\nSELECT MODE FOR {selected_env['name']}:")
-        for index, mode in enumerate(selected_env["modes"], start=1):
-            print(f"{index}. {mode['name']}")
-        mode_index = int(input("\nInput Mode ID >>> ").strip()) - 1
-
-        try:
-            selected_mode = selected_env["modes"][mode_index]
+        if "modes" in selected_env:
+            modes = "\n".join(
+                f"{index} {mode['name']}"
+                for index, mode in enumerate(selected_env["modes"], start=1)
+            )
+            zenity_mode_cmd = f"zenity --list --title='Select Mode for {selected_env['name']}' --column='ID' --column='Mode' --height=200 --width=400 --print-column=1 <<< \"{modes}\""
+            selected_mode_id = subprocess.check_output(
+                zenity_mode_cmd, shell=True, text=True
+            ).strip()
+            selected_mode_id = int(selected_mode_id) - 1
+            selected_mode = selected_env["modes"][selected_mode_id]
             command = selected_mode["invokeCommand"]
-            script_name = command.split()[-1]
-            script_path = selected_env["folderPath"]
-            print(f"\nExecuting {selected_mode['name']} mode command...")
-            execute_script(script_name, script_path)
+        else:
+            command = selected_env["invokeCommand"]
 
-        except IndexError:
-            print("\nInvalid Mode. Exiting...")
-            exit()
-    else:
-        command = selected_env["invokeCommand"]
         script_name = command.split()[-1]
         script_path = selected_env["folderPath"]
         print(f"\nExecuting command for {selected_env['name']}...")
         execute_script(script_name, script_path)
 
+    except subprocess.CalledProcessError as e:
+        raise Exception("Dialog canceled or closed. Exiting...")
+
 
 if __name__ == "__main__":
+    server_process = manage_server(
+        1231, start=True
+    )  # Start the server outside the loop
 
-    server_process = None
+    while True:
+        try:
+            ENV = load_environment()
+            getUserInput(ENV)
+            # Assuming successful completion, break the loop
+            print("Operation completed successfully. Exiting...")
+            break  # Exit the loop after successful execution
 
-    try:
-        ENV = load_environment()
+        except KeyboardInterrupt:
+            print("\nDetected Ctrl+C. Exiting gracefully...")
+            break  # Exit the loop if Ctrl+C is pressed
 
-        # Start the server
-        server_process = manage_server(1231, start=True)
+        except Exception as error:
+            # print(f"An unexpected error occurred: {error}")
+            zenity_test_cmd = f"""bash -c 'zenity --error --text="{error}" --height=200 --width=400 '"""
 
-        getUserInput(ENV)
+            selected_test_id = subprocess.check_output(
+                zenity_test_cmd, shell=True, text=True
+            ).strip()
+            if "Exiting" in str(error):
+                exit()
+            else:
+                print("Attempting to restart...")
+                time.sleep(1)  # Brief pause before restarting
 
-    except KeyboardInterrupt:
-        print("\nDetected Ctrl+C. Shutting down server and exiting gracefully...")
-
-        if server_process is not None:
-            manage_server(1231, start=False)
-
-    except Exception as error:
-        print(f"An unexpected error occurred: {error}")
-
-    finally:
-        if server_process is not None:
-            manage_server(1231, start=False)
-
-        print("Exiting gracefully...")
+    # Shutdown server process when exiting the loop
+    if server_process is not None:
+        manage_server(1231, start=False)
+    print("Exiting gracefully...")
