@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "$(<./ascii2.txt )"
+echo "$(<./ascii2.txt)"
 
 # Function to check RDP port for an individual host
 check_rdp_port() {
@@ -17,76 +17,88 @@ echo "--[ TOOL ]--[ RDP SCANNER ]--[ SUJAL TULADHAR ]"
 choice=$(zenity --list --title="Scan Type" --column="Type" "Network" "Host" --text="Please specify the scan type you want to perform. [Network or Host based]")
 
 if [[ $choice == "Network" ]]; then
-    valid_input=false
-
-    while [[ $valid_input == false ]]; do
-        # Prompt the user for the network range using Zenity
+    while true; do
+        # Prompt the user for the network range using Zenity and capture the exit status
         network_range=$(zenity --entry --title="Network Scanner" --text="Enter the network range (Example: 192.168.15.0):")
+        exit_status=$?
+
+        # Check if the user clicked the cancel button or closed the dialog
+        if [[ $exit_status -ne 0 ]]; then
+            zenity --info --text="Operation cancelled by user."
+            exit 2
+        fi
 
         # Validate the input with an enhanced regex that checks for valid IPv4 addresses
-        if [[ ! $network_range =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
-            zenity --error --text="Invalid network range format. Please enter a valid IP address."
+        if [[ $network_range =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
+            # If the input is a valid IP address, proceed with the rest of the script
+
+            # Specify the RDP port
+            rdp_port=3389
+        
+            # Extract the network prefix (e.g., 192.168.1)
+            network_prefix="${network_range%.*}"
+        
+            # Function to display scanning message
+            display_scanning_message() {
+                echo "Scanning the network..."
+            }
+        
+            echo "" > activeRDPs.txt
+        
+            # Run the scanning message display
+            display_scanning_message
+        
+            # Check RDP port for each host in the specified range in the background
+            for host in $(seq 1 254); do
+                check_rdp_port "$network_prefix.$host" &
+            done
+        
+            # Sleep for 15 seconds to allow some scans to complete
+            sleep 15
+        
+            # End the program
+            echo "Scanning complete."
+            
+            ./rdp_bruteforce.sh
+            break
         else
-            valid_input=true
+            zenity --error --text="Invalid network range format. Please enter a valid IP address."
         fi
     done
-
-    # Specify the RDP port
-    rdp_port=3389
-
-    # Extract the network prefix (e.g., 192.168.1)
-    network_prefix="${network_range%.*}"
-
-    # Function to display scanning message
-    display_scanning_message() {
-        echo "Scanning the network..."
-    }
-
-    echo "" > activeRDPs.txt
-
-    # Run the scanning message display
-    display_scanning_message
-
-    # Check RDP port for each host in the specified range in the background
-    for host in "$network_prefix".{1..254}; do
-        check_rdp_port "$host" &
-    done
-
-    # Sleep for 15 seconds to allow some scans to complete
-    sleep 15
-
-    # End the program
-    echo "Scanning complete."
-    
-    ./rdp_bruteforce.sh
 
 elif [[ $choice == "Host" ]]; then
-    valid_input=false
-
-    while [[ $valid_input == false ]]; do
-        # Prompt the user for a single IP address
+    while true; do
+        # Prompt the user for a single IP address and capture the exit status
         host_ip=$(zenity --entry --title="Host Scanner" --text="Enter the host IP address (Example: 192.168.15.X):")
+        exit_status=$?
+
+        # Check if the user clicked the cancel button or closed the dialog
+        if [[ $exit_status -ne 0 ]]; then
+            zenity --info --text="Operation cancelled by user."
+            exit 2
+            python wrapper.py
+        fi
 
         # Validate the input with an enhanced regex that checks for valid IPv4 addresses
-        if [[ ! $host_ip =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
-            zenity --error --text="Invalid IP address format. Please enter a valid IP address."
+        if [[ $host_ip =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
+            # If the input is a valid IP address, exit the loop to proceed with the rest of the script
+
+            # Check RDP port for the specified host
+            check_rdp_port "$host_ip"
+        
+            # Rewrite the content of activeRDPs.txt
+            echo "$host_ip" > activeRDPs.txt
+        
+            # Invoke rdp_bruteforce.sh script
+            ./rdp_bruteforce.sh
+        
+            break
         else
-            valid_input=true
+            zenity --error --text="Invalid IP address format. Please enter a valid IP address."
         fi
     done
 
-    # Check RDP port for the specified host
-    check_rdp_port "$host_ip"
-
-    # Rewrite the content of activeRDPs.txt
-    echo "$host_ip" > activeRDPs.txt
-
-    # Invoke rdp_bruteforce.sh script
-    ./rdp_bruteforce.sh
-
-    # No need to exit here if you want the script to potentially continue or end naturally
 else
-    zenity --error --text="Invalid choice. Please select either 'N' or 'H'."
-    exit 1
+    zenity --error --text="Invalid choice. Please select either 'Network' or 'Host'."
+    exit 2
 fi
-

@@ -104,9 +104,10 @@ def execute_script(command, script_path):
         else:
             raise Exception(f"Unsupported script type for command: {command}")
 
+    except subprocess.CalledProcessError as e:
+        raise Exception(f"Error executing script: {e}")
     except Exception as error:
-        print(error)
-
+        raise Exception(f"An unexpected error occurred: {error}")
     finally:
         os.chdir(original_cwd)  # Change back to the original working directory
 
@@ -187,8 +188,7 @@ if __name__ == "__main__":
             ENV = load_environment()
             getUserInput(ENV)
             # Assuming successful completion, break the loop
-            print("Operation completed successfully. Exiting...")
-            break  # Exit the loop after successful execution
+            print("Operation completed successfully.")
 
         except KeyboardInterrupt:
             print("\nDetected Ctrl+C. Exiting gracefully...")
