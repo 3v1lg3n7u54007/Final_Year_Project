@@ -4,20 +4,23 @@ import time
 import subprocess
 import os.path as directoryPath
 
-
 def banner():
-    print(
-        """\n
+    RED   = '\033[91m'
+    WHITE = '\033[97m'
+    END   = '\033[0m'
+    print(WHITE + """
       .o.         .oooooo.   ooooooooooooo ooooo oooooo     oooo oooooooooooo      oooooooooo.   ooooo ooooooooo.   oooooooooooo   .oooooo.   ooooooooooooo   .oooooo.   ooooooooo.   oooooo   oooo      ooooooo  ooooo 
      .888.       d8P'  `Y8b  8'   888   `8 `888'  `888.     .8'  `888'     `8      `888'   `Y8b  `888' `888   `Y88. `888'     `8  d8P'  `Y8b  8'   888   `8  d8P'  `Y8b  `888   `Y88.  `888.   .8'        `8888    d8'  
     .8"888.     888               888       888    `888.   .8'    888               888      888  888   888   .d88'  888         888               888      888      888  888   .d88'   `888. .8'           Y888..8P    
    .8' `888.    888               888       888     `888. .8'     888oooo8          888      888  888   888ooo88P'   888oooo8    888               888      888      888  888ooo88P'     `888.8'             `8888'     
   .88ooo8888.   888               888       888      `888.8'      888    "          888      888  888   888`88b.     888    "    888               888      888      888  888`88b.        `888'             .8PY888.    
  .8'     `888.  `88b    ooo       888       888       `888'       888       o       888     d88'  888   888  `88b.   888       o `88b    ooo       888      `88b    d88'  888  `88b.       888             d8'  `888b   
-o88o     o8888o  `Y8bood8P'      o888o     o888o       `8'       o888ooooood8      o888bood8P'   o888o o888o  o888o o888ooooood8  `Y8bood8P'      o888o      `Y8bood8P'  o888o  o888o     o888o          o888o  o88888o                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-"""
-    )
+o88o     o8888o  `Y8bood8P'      o888o     o888o       `8'       o888ooooood8      o888bood8P'   o888o o888o  o888o o888ooooood8  `Y8bood8P'      o888o      `Y8bood8P'  o888o  o888o     o888o          o888o  o88888o 
+""" + RED + "\n Use this tool within legal and ethical boundaries only. Unauthorized testing against Active Directory environments without explicit permission is prohibited.\n" + END )
 
+
+def banner1():
+    print("test")
 
 def getFullPath(pathValue):
     """Converts a relative path to an absolute, normalized path."""
