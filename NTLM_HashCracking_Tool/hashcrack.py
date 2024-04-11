@@ -1,6 +1,7 @@
 import os
 import re
 import hashlib
+import time
 
 # Function to print a styled banner
 def banner():
@@ -150,12 +151,21 @@ for hash in NTLMHashes:
             count += 1
             break
 
-if crackedPassword == "":
-    print("\n--[ RESULT ]--[ No Hashes Cracked ]")
+with open('cracked_hash.txt', 'a') as file:
+    if crackedPassword == "":
+        output_message = "\n--[ RESULT ]--[ No Hashes Cracked ]\n"
+        print(output_message)
+        file.write(output_message)
+    else:
+        output_message = f"\n--[ RESULT ]--[ {count} Passwords Cracked Successfully ]\n"
+        print(output_message)
+        file.write(output_message)
+        for value in crackedPassword:
+            del value["NTLMhash"]
+           
+            output_line = f"{value}\n"
+            print(output_line.strip()) # strip() to remove the extra newline when printing
+            file.write(output_line)
 
-else:
-    print(f"\n--[ RESULT ]--[ {count} Passwords Cracked Successfully ]")
 
-    for value in crackedPassword:
-        del value["NTLMhash"]
-        print(f"{value}")
+time.sleep(5)

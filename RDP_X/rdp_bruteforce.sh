@@ -86,3 +86,5 @@ done
 
 # Inform the user that the script has completed
 echo "RDP connection attempts completed."
+
+sleep 5

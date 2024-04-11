@@ -84,8 +84,11 @@ def main():
 
         time.sleep(5)
         subprocess.run(f"hashcat -m 5600 ./hash.txt ./passwords.txt", shell=True)
+
+        time.sleep(15)
     else:
         print("No hash was extracted.")
 
 if __name__ == "__main__":
     main()
+
