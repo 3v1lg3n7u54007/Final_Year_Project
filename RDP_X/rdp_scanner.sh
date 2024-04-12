@@ -18,7 +18,7 @@ check_rdp_port_host() {
         zenity --info --text="Remote Desktop Porotcol service is enabled on the host."
         echo "$host" >> activeRDPs.txt
     else 
-        zenity --error --text="Remote Desktop Protocol service not enabled on the host."
+        zenity --info --text="Remote Desktop Protocol service not enabled on the host."
         exit 1
     fi
 
