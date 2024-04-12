@@ -12,11 +12,18 @@ rdp_server=""
 # Read activeRDPs.txt into an array
 mapfile -t activeRDPs < "./activeRDPs.txt"
 
-# Function to check file existence
-check_file_exists() {
-    if [ ! -f "$1" ]; then
-        echo -e "\e[91m$2 file not found. Please check the file path.\e[0m"
+# Function to check if a file is empty or does not exist
+check_file_content() {
+    local file_path="$1"
+    local error_message="$2"
+
+    if [ ! -s "$file_path" ] || ! grep -q '[^[:space:]]' "$file_path"; then
+        echo "Debug: $file_path is empty or does not exist."
+        zenity --error --text="$error_message"
         exit 1
+    else
+        echo "Debug: $file_path exists and is not empty."
+        # Additional commands can be placed here if the file is not empty
     fi
 }
 
@@ -35,7 +42,7 @@ attempt_rdp_connection() {
     local username="$1"
     local password="$2"
     local rdp_server="$3"
-
+    
     if xfreerdp /u:"$username" /p:"$password" /v:"$rdp_server" &> /dev/null; then
     # Success message with timestamp in green
         timestamp=$(date +"%Y-%m-%d %H:%M:%S")
@@ -72,6 +79,8 @@ get_valid_file() {
     done
     echo "$file"
 }
+
+check_file_content "./activeRDPs.txt" "No Active RDP IPs were stored."
 
 # Retrieve valid files from the user
 usernames_file=$(get_valid_file "usernames" "Select the username file" "Select the usernames.txt or .csv file:")

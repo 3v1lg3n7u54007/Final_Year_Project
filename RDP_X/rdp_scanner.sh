@@ -4,13 +4,38 @@ clear
 echo "$(<./ascii2.txt)"
 
 # Function to check RDP port for an individual host
-check_rdp_port() {
+check_rdp_port_network() {
     local host=$1
     if nc -zvw1 "$host" "$rdp_port" &>/dev/null; then
         echo -e "\e[32mRDP is enabled on $host\e[0m"
         echo "$host" >> activeRDPs.txt
     fi
 }
+
+check_rdp_port_host() {
+    local $host_ip=$1
+    if nc -zvw1 "$host_ip" "$rdp_port" &>/dev/null; then
+        zenity --info --text="Remote Desktop Porotcol service is enabled on the host."
+        echo "$host" >> activeRDPs.txt
+    else 
+        zenity --error --text="Remote Desktop Protocol service not enabled on the host."
+        exit 1
+    fi
+
+}
+    
+
+# Function to check file existence
+check_file_exists() {
+    if [ ! -f "$1" ]; then
+        echo -e "\e[91m$2 file not found. Please check the file path.\e[0m"
+        #exit 1
+    else 
+        echo -e "ActiveRDPs.txt File Found in the directory . . . Proceeding with the process"
+    fi
+}
+
+
 
 echo "--[ TOOL ]--[ RDP SCANNER ]--[ SUJAL TULADHAR ]"
 
@@ -41,7 +66,8 @@ if [[ $choice == "Network" ]]; then
         
             # Function to display scanning message
             display_scanning_message() {
-                echo "Scanning the network..."
+                clear
+                echo "Scanning the network for Remote Destop Protocol Service..."
             }
         
             echo "" > activeRDPs.txt
@@ -51,9 +77,11 @@ if [[ $choice == "Network" ]]; then
         
             # Check RDP port for each host in the specified range in the background
             for host in $(seq 1 254); do
-                check_rdp_port "$network_prefix.$host" &
+                check_rdp_port_network "$network_prefix.$host" &
             done
         
+            check_file_exists ./activeRDPs.txt
+
             # Sleep for 15 seconds to allow some scans to complete
             sleep 15
         
@@ -81,13 +109,14 @@ elif [[ $choice == "Host" ]]; then
 
         # Validate the input with an enhanced regex that checks for valid IPv4 addresses
         if [[ $host_ip =~ ^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ ]]; then
-            # If the input is a valid IP address, exit the loop to proceed with the rest of the script
+
+            # Specify the RDP port
+            rdp_port=3389
 
             # Check RDP port for the specified host
-            check_rdp_port "$host_ip"
+            check_rdp_port_host "$host_ip"
         
-            # Rewrite the content of activeRDPs.txt
-            echo "$host_ip" > activeRDPs.txt
+            check_file_exists ./activeRDPs.txt
         
             # Invoke rdp_bruteforce.sh script
             ./rdp_bruteforce.sh
