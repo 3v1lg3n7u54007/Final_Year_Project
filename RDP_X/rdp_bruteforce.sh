@@ -50,13 +50,32 @@ attempt_rdp_connection() {
     fi
 }
 
-# GUI prompts for user inputs
-usernames_file=$(zenity --file-selection --title="Select the username file" --text="Select the usernames.txt file:")
-passwords_file=$(zenity --file-selection --title="Select the password file" --text="Select the passwords.txt file:")
+# GUI prompts for user inputs with repeated validation until the correct file type is chosen
+get_valid_file() {
+    local file_type_prompt=$1
+    local title=$2
+    local text=$3
+    local file
+    while true; do
+        file=$(zenity --file-selection --title="$title" --text="$text")
+        # Check for cancel operation
+        if [[ -z "$file" ]]; then
+            zenity --error --text="File selection cancelled. Exiting script."
+            exit 1
+        fi
+        # Validate file type
+        if [[ "$file" =~ \.txt$|\.csv$ ]]; then
+            break
+        else
+            zenity --error --text="Invalid file format. Please select a .txt or .csv file."
+        fi
+    done
+    echo "$file"
+}
 
-# Check if the user canceled the file selection
-check_file_exists "$usernames_file" "Usernames"
-check_file_exists "$passwords_file" "Passwords"
+# Retrieve valid files from the user
+usernames_file=$(get_valid_file "usernames" "Select the username file" "Select the usernames.txt or .csv file:")
+passwords_file=$(get_valid_file "passwords" "Select the password file" "Select the passwords.txt or .csv file:")
 
 # Read usernames and passwords into arrays
 passwords=($(cat "$passwords_file"))
@@ -83,6 +102,7 @@ for ip in "${activeRDPs[@]}"; do
         done
     done < "$usernames_file"
 done
+
 
 # Inform the user that the script has completed
 echo "RDP connection attempts completed."

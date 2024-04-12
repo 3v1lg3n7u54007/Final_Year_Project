@@ -99,6 +99,5 @@ elif [[ $choice == "Host" ]]; then
     done
 
 else
-    zenity --error --text="Invalid choice. Please select either 'Network' or 'Host'."
-    exit 2
+    zenity --info --text="Operation cancelled by user."
 fi

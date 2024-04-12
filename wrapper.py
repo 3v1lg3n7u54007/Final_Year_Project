@@ -3,6 +3,7 @@ import json
 import time
 import subprocess
 import os.path as directoryPath
+import sys
 
 def banner():
     RED   = '\033[91m'
@@ -155,7 +156,7 @@ def getUserInput(ENV):
         current_os = "nt" if os.name == "nt" else "linux"
         if selected_env["environment"] not in [current_os, "any"]:
             raise Exception(
-                f"\nSelected environment is not compatible with the current OS ({current_os})"
+                f"\nSelected module is not compatible with the current OS ({current_os})"
             )
 
         if "modes" in selected_env:
@@ -164,6 +165,7 @@ def getUserInput(ENV):
                 for index, mode in enumerate(selected_env["modes"], start=1)
             )
             zenity_mode_cmd = f"zenity --list --title='Select Mode for {selected_env['name']}' --column='ID' --column='Mode' --height=200 --width=400 --print-column=1 <<< \"{modes}\""
+            
             selected_mode_id = subprocess.check_output(
                 zenity_mode_cmd, shell=True, text=True, stderr=subprocess.DEVNULL
             ).strip()
@@ -179,8 +181,16 @@ def getUserInput(ENV):
         execute_script(script_name, script_path)
 
     except subprocess.CalledProcessError as e:
-        raise Exception("Dialog canceled or closed. Exiting...")
-
+        
+        zenity_exit_cmd = "zenity --question --text='Do you want to close the tool?' --title='Confirm Exit'"
+        try:
+            # Execute the Zenity command and check the user's response
+            subprocess.run(zenity_exit_cmd, shell=True, check=True, text=True, stderr=subprocess.DEVNULL)
+            # If the user clicks "Yes", the program will exit here
+            sys.exit(0)
+        except subprocess.CalledProcessError:
+            # If the user clicks "No", it throws a CalledProcessError and the program continues
+            print("Continuing execution...")
 
 if __name__ == "__main__":
     server_process = manage_server(
