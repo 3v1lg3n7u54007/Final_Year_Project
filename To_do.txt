@@ -2,10 +2,12 @@
 
 1. Develop powershell CVE exploitation tool alongisde POC. [Tool developed and working - Needs Cleanup] [Completed]
 
-2. Make a comprehensive report for the AD deployment.
+2. Make a comprehensive report for the AD deployment. [Completed]
 
 3. Make a wrapper for the tool to intergate them in one single tool. [Development Started] [Completed]
 
 4. Preparing a presentation for development updates. [ Ongoing ] [ Draft Created ] [ Completed ]
 
 5. Project documentation initiation. [Started]
+
+6. Tool and System testing. [Ongoing 90%]
