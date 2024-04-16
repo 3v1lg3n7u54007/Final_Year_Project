@@ -39,9 +39,11 @@ clear_screen()
 
 # Function to handle execution of PowerShell commands
 def execute_command(session, cmd):
+
     # Suppressing the progress stream to avoid CLIXML output
     ps_script = f"$ProgressPreference = 'SilentlyContinue'; {cmd}"
     result = session.run_ps(ps_script)
+
     #print(f"\nResponse code: {result.status_code}")
     print(f"Standard Output:\n{result.std_out.decode('utf-8')}")
     if result.std_err:
@@ -69,21 +71,32 @@ try:
     # Interactive shell loop
     while True:
         try:
+            # Prompt the user for input and strip leading/trailing whitespace
             cmd = input("PS> ").strip()
+
+            # If the user enters 'exit', terminate the loop and exit the shell
             if cmd.lower() == 'exit':
                 print("Exiting interactive shell.")
                 break
+
+            # If the user enters 'help', display the help message
             elif cmd.lower() == 'help':
                 print_help()
+            
+            # Otherwise, execute the entered PowerShell command
             else:
                 execute_command(session, cmd)
 
+        # If the user interrupts the session (e.g., with Ctrl+C), handle the interruption gracefully
         except KeyboardInterrupt:
             print("\nSession interrupted by user.")
             break
+
+        # Handle other exceptions (e.g., connection errors, command execution errors)
         except Exception as e:
             print(f"An error occurred: {e}")
 
+# Handle exceptions related to connection errors
 except Exception as e:
     print(f"Failed to connect to {host}: {e}")
     sys.exit(1)
