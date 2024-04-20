@@ -30,3 +30,11 @@
 {'username': 'ActiveDirectoryEnvironment.local\\EdwardSnowden', 'RID': '1106', 'Password': 'Domainadmin1'}
 {'username': 'ActiveDirectoryEnvironment.local\\SQLService', 'RID': '1107', 'Password': 'Databaseserver1'}
 {'username': 'ActiveDirectoryEnvironment.local\\EAnderson', 'RID': '1110', 'Password': 'Employee23213'}
+
+--[ RESULT ]--[ 4 Passwords Cracked Successfully ]
+{'username': 'Administrator', 'RID': '500', 'Password': 'Pa55w0rd123!'}
+{'username': 'ActiveDirectoryEnvironment.local\\EdwardSnowden', 'RID': '1106', 'Password': 'Domainadmin1'}
+{'username': 'ActiveDirectoryEnvironment.local\\SQLService', 'RID': '1107', 'Password': 'Databaseserver1'}
+{'username': 'ActiveDirectoryEnvironment.local\\EAnderson', 'RID': '1110', 'Password': 'Employee23213'}
+
+--[ RESULT ]--[ 0 Passwords Cracked Successfully ]
